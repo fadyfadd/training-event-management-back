@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: training-event-management-back
+  datasource:
+    url: jdbc:postgresql://localhost:5432/training_center
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
