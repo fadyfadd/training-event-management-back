@@ -6,10 +6,10 @@ import java.time.LocalDate;
 
 @Data
 public class Attendance extends BaseDto{
-    private Long EventId;
-    private Long StudentId;
-    private LocalDate StartDate;
-    private LocalDate EndDate;
+    private Long eventId;
+    private Long studentId;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private EventDto event;
     private StudentDto student;
 }

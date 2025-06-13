@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 @Table(name="Certificates")
 public class Certificate extends BaseEntity {
 
-    @Column(name = "CourseId", nullable=false)
-    private Long course_id;
+    @Column(name = "courseId", nullable=false)
+    private Long courseId;
 
     @ManyToOne
-    @JoinColumn(name = "event_id")
+    @JoinColumn(name = "eventId", referencedColumnName = "id")
     private Event event;
 }

@@ -13,23 +13,17 @@ import java.time.LocalDate;
 @Table(name="Attendance")
 public class Attendance extends BaseEntity {
 
-    @Column(name = "EventId", nullable=false)
-    private Long EventId;
+    @Column(name = "startDate", nullable = false)
+    private LocalDate startDate;
 
-    @Column(name = "StudentId", nullable = false)
-    private Long StudentId;
-
-    @Column(name = "StartDate", nullable = false)
-    private LocalDate StartDate;
-
-    @Column(name = "EndDate", nullable = false)
-    private LocalDate EndDate;
+    @Column(name = "endDate", nullable = false)
+    private LocalDate endDate;
 
     @ManyToOne
-    @JoinColumn(name = "event_id")
+    @JoinColumn(name = "eventId", referencedColumnName = "id")
     private Event event;
 
     @ManyToOne
-    @JoinColumn(name = "student_id")
+    @JoinColumn(name = "studentId", referencedColumnName = "id")
     private Student student;
 }

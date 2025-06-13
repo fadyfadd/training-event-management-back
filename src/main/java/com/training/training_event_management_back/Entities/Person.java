@@ -10,18 +10,18 @@ import lombok.NoArgsConstructor;
 @Table(name="Persons")
 public class Person extends BaseEntity {
 
-    @Column(name = "Username", nullable=false)
-    private String Username;
+    @Column(name = "username", nullable=false)
+    private String username;
 
-    @Column(name = "Email", nullable = false)
-    private String Email;
+    @Column(name = "email", nullable = false)
+    private String email;
 
-    @Column(name = "Password", nullable = false)
-    private String Password;
+    @Column(name = "password", nullable = false)
+    private String password;
 
-    @Column(name = "FirstName", nullable = false)
-    private String FirstName;
+    @Column(name = "firstName", nullable = false)
+    private String firstName;
 
-    @Column(name = "LastName", nullable = false)
-    private String LastName;
+    @Column(name = "lastName", nullable = false)
+    private String lastName;
 }

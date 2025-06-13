@@ -13,16 +13,16 @@ import java.util.Set;
 @Table(name="Courses")
 public class Course extends BaseEntity {
 
-    @Column(name = "Description", nullable=false)
-    private String Description;
+    @Column(name = "description", nullable=false)
+    private String description;
 
-    @Column(name = "NbofHours", nullable = false)
-    private Long NbofHours;
+    @Column(name = "nbofHours", nullable = false)
+    private Long nbofHours;
 
-    @Column(name = "MinAttendance", nullable = false)
-    private String MinAttendance;
+    @Column(name = "minAttendance", nullable = false)
+    private String minAttendance;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Event> eventList;
 
     @ManyToMany(mappedBy = "courses")

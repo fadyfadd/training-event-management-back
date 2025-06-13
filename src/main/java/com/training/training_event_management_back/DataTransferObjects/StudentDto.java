@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class StudentDto extends BaseDto{
-    private Long person_id;
+    private Long personId;
 }

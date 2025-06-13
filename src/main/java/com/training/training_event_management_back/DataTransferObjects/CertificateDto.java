@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 
 public class CertificateDto extends BaseDto{
-    private Long course_id;
+    private Long courseId;
     private EventDto event;
 }

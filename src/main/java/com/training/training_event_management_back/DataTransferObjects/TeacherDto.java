@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 
 public class TeacherDto extends BaseDto{
-    private Long person_id;
+    private Long personId;
 }

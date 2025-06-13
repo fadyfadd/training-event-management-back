@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class PersonDto extends BaseDto{
-    private String Username;
-    private String Email;
-    private String Password;
-    private String FirstName;
-    private String LastName;
+    private String username;
+    private String email;
+    private String password;
+    private String firstName;
+    private String lastName;
 }

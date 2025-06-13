@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class CourseDto extends BaseDto {
-    private String Description;
-    private Long NbofHours;
-    private Long MinAttendance;
+    private String description;
+    private Long nbofHours;
+    private Long minAttendance;
 }

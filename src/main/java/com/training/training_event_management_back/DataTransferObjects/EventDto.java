@@ -7,9 +7,9 @@ import java.time.LocalDate;
 @Data
 
 public class EventDto extends BaseDto {
-    private String Title;
-    private String Description;
-    private LocalDate StartDate;
-    private LocalDate EndDate;
-    private Long MaxStudent;
+    private String title;
+    private String description;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private Long maxStudent;
 }

@@ -15,35 +15,35 @@ import java.util.Set;
 @Table(name="Events")
 public class Event extends BaseEntity {
 
-    @Column(name = "Title", nullable=false)
-    private String Title;
+    @Column(name = "title", nullable=false)
+    private String title;
 
-    @Column(name = "Description", nullable = false)
-    private String Description;
+    @Column(name = "description", nullable = false)
+    private String description;
 
-    @Column(name = "StartDate", nullable = false)
-    private LocalDate StartDate;
+    @Column(name = "startDate", nullable = false)
+    private LocalDate startDate;
 
-    @Column(name = "EndDate", nullable = false)
-    private LocalDate EndDate;
+    @Column(name = "endDate", nullable = false)
+    private LocalDate endDate;
 
-    @Column(name = "MaxStudent", nullable = false)
-    private Long MaxStudent;
+    @Column(name = "maxStudent", nullable = false)
+    private Long maxStudent;
 
     @ManyToOne
-    @JoinColumn(name = "Teacher_Id")
+    @JoinColumn(name = "teacherId", referencedColumnName = "id")
     private Teacher teacher;
 
     @ManyToOne
-    @JoinColumn(name = "Course_Id")
+    @JoinColumn(name = "courseId", referencedColumnName = "id")
     private Course course;
 
     @ManyToMany(mappedBy = "events")
     private Set<Student> students;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<Attendance> attendanceList;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<Certificate> certificateList;
 }
