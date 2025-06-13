@@ -1,5 +1,6 @@
 package com.training.training_event_management_back.Controllers;
 
+import com.training.training_event_management_back.Repositories.StudentRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,4 +19,9 @@ public class StudentController {
         return ResponseEntity.ok(output);
     }
 
+    @GetMapping("/students/{id}")
+    public ResponseEntity<List<String>> getStudentbyId(Long id) {
+        List<String> output = new ArrayList<>();
+        return ResponseEntity.ok(output);
+    }
 }
