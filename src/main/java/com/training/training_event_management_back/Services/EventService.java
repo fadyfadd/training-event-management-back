@@ -7,24 +7,23 @@ import com.training.training_event_management_back.Entities.Teacher;
 import com.training.training_event_management_back.Repositories.CourseRepository;
 import com.training.training_event_management_back.Repositories.EventRepository;
 import com.training.training_event_management_back.Repositories.TeacherRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class EventService {
-    private final EventRepository eventRepository;
-    private final TeacherRepository teacherRepository;
-    private final CourseRepository courseRepository;
 
-    public EventService(EventRepository eventRepository,
-                        TeacherRepository teacherRepository,
-                        CourseRepository courseRepository) {
-        this.eventRepository = eventRepository;
-        this.teacherRepository = teacherRepository;
-        this.courseRepository = courseRepository;
-    }
+    @Autowired
+    private EventRepository eventRepository;
+    @Autowired
+    private TeacherRepository teacherRepository;
+    @Autowired
+    private CourseRepository courseRepository;
 
     public List<EventDto> getAllEvents() {
         return eventRepository.findAll()
@@ -63,6 +62,7 @@ public class EventService {
 
     private EventDto toDto(Event event) {
         EventDto dto = new EventDto();
+        dto.setId(event.getId());
         dto.setTitle(event.getTitle());
         dto.setDescription(event.getDescription());
         dto.setStartDate(event.getStartDate());
@@ -83,6 +83,7 @@ public class EventService {
     }
 
     private void copyFromDto(EventDto dto, Event event) {
+        event.setId(dto.getId());
         event.setTitle(dto.getTitle());
         event.setDescription(dto.getDescription());
         event.setStartDate(dto.getStartDate());

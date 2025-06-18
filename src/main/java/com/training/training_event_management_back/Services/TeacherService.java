@@ -7,25 +7,23 @@ import com.training.training_event_management_back.Entities.Teacher;
 import com.training.training_event_management_back.Repositories.CourseRepository;
 import com.training.training_event_management_back.Repositories.EventRepository;
 import com.training.training_event_management_back.Repositories.TeacherRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class TeacherService {
 
-    private final TeacherRepository teacherRepository;
-    private final EventRepository eventRepository;
-    private final CourseRepository courseRepository;
-
-    public TeacherService(TeacherRepository teacherRepository,
-                          EventRepository eventRepository,
-                          CourseRepository courseRepository) {
-        this.teacherRepository = teacherRepository;
-        this.eventRepository = eventRepository;
-        this.courseRepository = courseRepository;
-    }
+    @Autowired
+    private TeacherRepository teacherRepository;
+    @Autowired
+    private EventRepository eventRepository;
+    @Autowired
+    private CourseRepository courseRepository;
 
     public List<TeacherDto> getAllTeachers() {
         return teacherRepository.findAll().stream()
@@ -55,6 +53,7 @@ public class TeacherService {
 
     private TeacherDto toDto(Teacher teacher) {
         TeacherDto dto = new TeacherDto();
+        dto.setId(teacher.getId());
         dto.setPersonId(teacher.getPersonId());
 
         if (teacher.getEventList() != null) {
@@ -71,6 +70,7 @@ public class TeacherService {
     }
 
     private void copyFromDto(TeacherDto dto, Teacher teacher) {
+        teacher.setId(dto.getId());
         teacher.setPersonId(dto.getPersonId());
 
         if (dto.getEventIds() != null) {

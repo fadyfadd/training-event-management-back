@@ -7,23 +7,24 @@ import com.training.training_event_management_back.Entities.Teacher;
 import com.training.training_event_management_back.Repositories.CourseRepository;
 import com.training.training_event_management_back.Repositories.EventRepository;
 import com.training.training_event_management_back.Repositories.TeacherRepository;
+import jakarta.persistence.Access;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class CourseService {
 
-    private final CourseRepository courseRepository;
-    private final EventRepository eventRepository;
-    private final TeacherRepository teacherRepository;
-
-    public CourseService(CourseRepository courseRepository, EventRepository eventRepository, TeacherRepository teacherRepository) {
-        this.courseRepository = courseRepository;
-        this.eventRepository = eventRepository;
-        this.teacherRepository = teacherRepository;
-    }
+    @Autowired
+    private CourseRepository courseRepository;
+    @Autowired
+    private EventRepository eventRepository;
+    @Autowired
+    private TeacherRepository teacherRepository;
 
     public List<CourseDto> getAllCourses() {
         return courseRepository.findAll().stream()
@@ -58,6 +59,7 @@ public class CourseService {
 
     private CourseDto toDto(Course course) {
         CourseDto dto = new CourseDto();
+        dto.setId(course.getId());
         dto.setDescription(course.getDescription());
         dto.setNbofHours(course.getNbofHours());
         dto.setMinAttendance(course.getMinAttendance());
@@ -78,6 +80,7 @@ public class CourseService {
     }
 
     private void copyFromDto(CourseDto dto, Course course) {
+        course.setId(dto.getId());
         course.setDescription(dto.getDescription());
         course.setNbofHours(dto.getNbofHours());
         course.setMinAttendance(dto.getMinAttendance());

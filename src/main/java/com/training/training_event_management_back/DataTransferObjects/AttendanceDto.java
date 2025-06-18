@@ -12,4 +12,6 @@ public class AttendanceDto extends BaseDto{
     private LocalDate endDate;
     private EventDto event;
     private StudentDto student;
+    private String eventTitle;
+    private String studentFullName;
 }

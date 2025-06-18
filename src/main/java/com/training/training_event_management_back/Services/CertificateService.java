@@ -4,21 +4,21 @@ import com.training.training_event_management_back.DataTransferObjects.Certifica
 import com.training.training_event_management_back.Entities.Certificate;
 import com.training.training_event_management_back.Repositories.CertificateRepository;
 import com.training.training_event_management_back.Repositories.EventRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class CertificateService {
 
-    private final CertificateRepository repository;
-    private final EventRepository eventRepository;
-
-    public CertificateService(CertificateRepository repository, EventRepository eventRepository) {
-        this.repository = repository;
-        this.eventRepository = eventRepository;
-    }
+    @Autowired
+    private CertificateRepository repository;
+    @Autowired
+    private EventRepository eventRepository;
 
     public List<CertificateDto> getAllCertificates() {
         return repository.findAll()
@@ -57,6 +57,7 @@ public class CertificateService {
     // Convert Entity -> DTO
     private CertificateDto toDto(Certificate certificate) {
         CertificateDto dto = new CertificateDto();
+        dto.setId(certificate.getId());
         dto.setCourseId(certificate.getCourseId());
 
         if (certificate.getEvent() != null) {
@@ -69,6 +70,7 @@ public class CertificateService {
 
 
     private void copyFromDto(CertificateDto dto, Certificate certificate) {
+        certificate.setId(dto.getId());
         certificate.setCourseId(dto.getCourseId());
 
         if (dto.getEventId() != null) {

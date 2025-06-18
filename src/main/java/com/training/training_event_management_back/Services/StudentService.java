@@ -7,25 +7,23 @@ import com.training.training_event_management_back.Entities.Student;
 import com.training.training_event_management_back.Repositories.AttendanceRepository;
 import com.training.training_event_management_back.Repositories.EventRepository;
 import com.training.training_event_management_back.Repositories.StudentRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class StudentService {
 
-    private final StudentRepository studentRepository;
-    private final EventRepository eventRepository;
-    private final AttendanceRepository attendanceRepository;
-
-    public StudentService(StudentRepository studentRepository,
-                          EventRepository eventRepository,
-                          AttendanceRepository attendanceRepository) {
-        this.studentRepository = studentRepository;
-        this.eventRepository = eventRepository;
-        this.attendanceRepository = attendanceRepository;
-    }
+    @Autowired
+    private StudentRepository studentRepository;
+    @Autowired
+    private EventRepository eventRepository;
+    @Autowired
+    private AttendanceRepository attendanceRepository;
 
     public List<StudentDto> getAllStudents() {
         return studentRepository.findAll().stream()
@@ -55,6 +53,7 @@ public class StudentService {
 
     private StudentDto toDto(Student student) {
         StudentDto dto = new StudentDto();
+        dto.setId(student.getId());
         dto.setPersonId(student.getPersonId());
 
         if (student.getEvents() != null) {
@@ -71,6 +70,7 @@ public class StudentService {
     }
 
     private void copyFromDto(StudentDto dto, Student student) {
+        student.setId(dto.getId());
         student.setPersonId(dto.getPersonId());
 
         if (dto.getEventIds() != null) {

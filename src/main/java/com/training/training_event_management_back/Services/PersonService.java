@@ -3,19 +3,23 @@ package com.training.training_event_management_back.Services;
 import com.training.training_event_management_back.DataTransferObjects.PersonDto;
 import com.training.training_event_management_back.Entities.Person;
 import com.training.training_event_management_back.Repositories.PersonRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class PersonService {
 
-    private final PersonRepository repository;
+    @Autowired
+    private PersonRepository repository;
 
-    public PersonService(PersonRepository repository) {
-        this.repository = repository;
-    }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public List<PersonDto> getAllPersons() {
         return repository.findAll().stream()
@@ -50,6 +54,7 @@ public class PersonService {
 
     private PersonDto toDto(Person person) {
         PersonDto dto = new PersonDto();
+        dto.setId(person.getId());
         dto.setUsername(person.getUsername());
         dto.setPassword(person.getPassword());
         dto.setEmail(person.getEmail());
@@ -59,10 +64,15 @@ public class PersonService {
     }
 
     private void copyFromDto(PersonDto dto, Person person) {
+        person.setId(dto.getId());
         person.setUsername(dto.getUsername());
-        person.setPassword(dto.getPassword());
+        person.setPassword(passwordEncoder.encode(dto.getPassword()));
         person.setEmail(dto.getEmail());
         person.setFirstName(dto.getFirstName());
         person.setLastName(dto.getLastName());
     }
+
+    //public boolean authenticate(String rawPassword, String hashedPasswordFromDb) {
+    //    return passwordEncoder.matches(rawPassword, hashedPasswordFromDb);
+    //} for authenticating later
 }
