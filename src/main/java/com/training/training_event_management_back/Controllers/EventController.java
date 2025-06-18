@@ -1,5 +1,6 @@
 package com.training.training_event_management_back.Controllers;
 
+import com.training.training_event_management_back.DataTransferObjects.EventDto;
 import com.training.training_event_management_back.Entities.Event;
 import com.training.training_event_management_back.Services.EventService;
 import org.apache.coyote.Response;
@@ -13,22 +14,22 @@ import java.util.List;
 @RestController
 public class EventController {
 
-    private EventService eventService;
+    private final EventService eventService;
 
     public EventController(EventService eventService) {
         this.eventService = eventService;
     }
 
     @GetMapping
-    public ResponseEntity<List<Event>> getAllEvents(){
-        List<Event> output = eventService.getAllEvents();
+    public ResponseEntity<List<EventDto>> getAllEvents(){
+        List<EventDto> output = eventService.getAllEvents();
         return ResponseEntity.ok(output);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Event> getEventById(@PathVariable Long id) {
+    public ResponseEntity<EventDto> getEventById(@PathVariable Long id) {
         try{
-            Event event = eventService.getEventById(id);
+            EventDto event = eventService.getEventById(id);
             return ResponseEntity.ok(event);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
@@ -36,15 +37,15 @@ public class EventController {
     }
 
     @PostMapping
-    public ResponseEntity<Event> createEvent(@RequestBody Event event) {
-        Event created = eventService.createEvent(event);
+    public ResponseEntity<EventDto> createEvent(@RequestBody EventDto event) {
+        EventDto created = eventService.createEvent(event);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody Event event) {
+    public ResponseEntity<EventDto> updateEvent(@PathVariable Long id, @RequestBody EventDto event) {
         try{
-            Event updated = eventService.updateEvent(id, event);
+            EventDto updated = eventService.updateEvent(id, event);
             return ResponseEntity.ok(updated);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();

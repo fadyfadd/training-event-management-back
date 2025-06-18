@@ -20,7 +20,7 @@ public class Course extends BaseEntity {
     private Long nbofHours;
 
     @Column(name = "minAttendance", nullable = false)
-    private String minAttendance;
+    private Long minAttendance;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Event> eventList;

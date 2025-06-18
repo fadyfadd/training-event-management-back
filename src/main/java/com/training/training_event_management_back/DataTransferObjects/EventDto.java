@@ -12,4 +12,9 @@ public class EventDto extends BaseDto {
     private LocalDate startDate;
     private LocalDate endDate;
     private Long maxStudent;
+
+    private Long teacherId;
+    private Long courseId;
+    private String teacherName;
+    private String courseName;
 }

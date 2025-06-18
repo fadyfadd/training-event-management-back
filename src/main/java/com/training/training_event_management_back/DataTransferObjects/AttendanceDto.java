@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class Attendance extends BaseDto{
+public class AttendanceDto extends BaseDto{
     private Long eventId;
     private Long studentId;
     private LocalDate startDate;
