@@ -1,5 +1,6 @@
 package com.training.training_event_management_back.Controllers;
 
+import com.training.training_event_management_back.DataTransferObjects.LoginRequest;
 import com.training.training_event_management_back.DataTransferObjects.PersonDto;
 import com.training.training_event_management_back.Entities.Person;
 import com.training.training_event_management_back.Services.PersonService;
@@ -40,7 +41,7 @@ public class PersonController {
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<PersonDto> updatePerson(@PathVariable Long id, @RequestBody PersonDto person) {
         try{
             PersonDto updated = personService.updatePerson(id, person);
@@ -50,10 +51,14 @@ public class PersonController {
         }
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePerson(@PathVariable Long id) {
         personService.deletePerson(id);
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/login")
+    public String login(@RequestBody LoginRequest loginRequest){
+        return personService.login(loginRequest);
+    }
 }

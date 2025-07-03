@@ -1,10 +1,17 @@
 package com.training.training_event_management_back.Services;
 
+import com.training.training_event_management_back.DataTransferObjects.LoginRequest;
 import com.training.training_event_management_back.DataTransferObjects.PersonDto;
 import com.training.training_event_management_back.Entities.Person;
+import com.training.training_event_management_back.Entities.PersonPrincipal;
+import com.training.training_event_management_back.Enums.Role;
 import com.training.training_event_management_back.Repositories.PersonRepository;
+import com.training.training_event_management_back.Utilities.JwtUtil;
 import jakarta.transaction.Transactional;
+import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +27,12 @@ public class PersonService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     public List<PersonDto> getAllPersons() {
         return repository.findAll().stream()
@@ -60,19 +73,52 @@ public class PersonService {
         dto.setEmail(person.getEmail());
         dto.setFirstName(person.getFirstName());
         dto.setLastName(person.getLastName());
+        dto.setRole(person.getRole() == null
+                ? null
+                : person.getRole().getCurrentRole()
+        );
         return dto;
     }
 
     private void copyFromDto(PersonDto dto, Person person) {
         person.setId(dto.getId());
         person.setUsername(dto.getUsername());
-        person.setPassword(passwordEncoder.encode(dto.getPassword()));
+        if (!dto.getPassword().startsWith("$2a$")) {
+            person.setPassword(passwordEncoder.encode(dto.getPassword()));
+        } else {
+            person.setPassword(dto.getPassword());
+        }
         person.setEmail(dto.getEmail());
         person.setFirstName(dto.getFirstName());
         person.setLastName(dto.getLastName());
+        if (dto.getRole() != null) {
+            person.setRole(Role.valueOf(dto.getRole().toUpperCase()));
+        }
+    }
+
+    public String login(LoginRequest loginRequest) {
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getUsername(),
+                        loginRequest.getPassword()
+                )
+        );
+        PersonPrincipal principal = (PersonPrincipal) authentication.getPrincipal();
+
+        String expectedRole = "ROLE_" + loginRequest.getRole();
+        if (expectedRole.equals("ROLE_null")) {
+            expectedRole = principal.getPerson().getRole().getCurrentRole();
+        }
+        String actualRole   = principal.getPerson().getRole().getCurrentRole();
+        if (!actualRole.equals(expectedRole)) {
+            throw new RuntimeException("Incorrect role");
+        }
+
+        return jwtUtil.generateToken(principal.getUsername());
     }
 
     //public boolean authenticate(String rawPassword, String hashedPasswordFromDb) {
     //    return passwordEncoder.matches(rawPassword, hashedPasswordFromDb);
-    //} for authenticating later
+    //} for authenticating later, already mawjoude bl authmanager
 }
